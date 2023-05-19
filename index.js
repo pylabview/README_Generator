@@ -96,6 +96,17 @@ inquirer.prompt([
         validate: (installation_instructions) => 
                     checkParagraphLines(installation_instructions,1,"Must be at least one line")
     },
+    {
+        type: 'list',
+        message: 'Enter license type',
+        name: 'license_type',
+        default: 'ISC',
+        choices: ['Apache license 2.0', 
+                    'GNU Lesser General Public License v3.0', 
+                    'ISC',
+                    'MIT',
+                    'Boost Software License 1.0'],
+      },
 
 ]).then((answer) => {
     console.log(answer);
