@@ -1,8 +1,9 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
-
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 // Helper Functions
-
+// Input validation 
 const checkTextLength = (str,min_len,msg) => {
     let words = str.trim().split(" ");
     let arrayWords = [];
@@ -21,6 +22,17 @@ const checkTextLength = (str,min_len,msg) => {
     }
 };
 
+const checkUserRepo = (repoName,msg) => {
+    if(repoName){
+        return true;
+    }else{
+        console.log(msg);
+        return false;
+    }
+    };
+
+
+
 const checkParagraphLines = (txt,min_lines,msg) => {
     let lines = txt.split("\n").length - 1;
     if(lines >= min_lines){
@@ -29,9 +41,38 @@ const checkParagraphLines = (txt,min_lines,msg) => {
         console.log(msg);
         return false;
     }
+};
+
+const checkEMail = (email) => {
+    if(emailRegex.test(email)){
+        return true;
+    } else {
+        console.log(" Email address is not valid");
+        return false;
+    }
 }
 
+// 
+
+// 
+
+
 inquirer.prompt([
+    {
+        type: 'input',
+        name: 'github_username',
+        message: "Enter enter my GitHub username",
+        default: () => {},
+        validate: (github_username) => checkUserRepo(github_username,
+            "Please enter a valid GitHub username")
+    },
+    {
+        type: 'input',
+        name: 'email',
+        message: "Enter your email address",
+        default: () => {},
+        validate: (email) => checkEMail(email),
+    },
     {
         type: 'input',
         name: 'title',
