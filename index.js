@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const DEBUG = true;
 
 // Helper Functions
 // Input validation 
@@ -58,31 +59,62 @@ const generateREADME = ({github_username,
                         description,
                         installation_instructions,
                         license_type,
-                        usage_instructions,}) =>
-                        `# ${title}
+                        usage,
+                        credits}) =>
+     
+    `
+# ${title}
 
-                        ## Description
-                        ${description}
-                        
-                        ## Table of Content
-                        - [Installation](#installation)
-                        - [Usage](#usage)
-                        - [Credits](#credits)
-                        - [License](#license)
-                        
-                        ## Installation
-                        ${installation_instructions}
-                        ## Usage
-                        ${usage_instructions}
-                        ## Credits
-                        
-                        ## Licence
-                        ![](https://img.shields.io/badge/license-${license_type}-blue) 
-                        
-                        ## Contact
-                        User: ${github_username}
-                        Email: ${email}
-                        `;
+## Description
+_______________________________________
+${description}
+
+## Table of Contents
+_______________________________________
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Credits](#credits)
+- [License](#license)
+- [Contact](#contact)
+
+## Installation
+_______________________________________
+
+${installation_instructions}
+
+## Usage
+_______________________________________
+
+${usage}
+
+
+## Credits
+_______________________________________
+
+${credits}
+
+## License
+_______________________________________
+
+![](https://img.shields.io/badge/license-${license_type}-green)
+---
+
+
+## How to Contribute
+
+If you would like to contribute to this project, you can do so by following the [Contributor Covenant](https://www.contributor-covenant.org/)
+
+## Contact
+
+Please feel free to reach out to me via email at <br>
+email: ${email}, ${github_username}.
+
+## Video
+![Fancy README Generator video]()
+
+
+`;
 
 
 inquirer.prompt([
@@ -110,11 +142,11 @@ inquirer.prompt([
     }
     ,
     {
-        type: 'input',
+        type: 'editor',
         name: 'description',
-        message:'Enter Project description: ',
+        message:'*** Enter Project description: ',
         default: () => {},
-        validate: (description) => checkTextLength(description,3,"The Description must be at least three word")
+        validate: (description) => checkTextLength(description,10,"The Description must be at least ten word")
     },
     {
         type: 'editor',
@@ -128,30 +160,37 @@ inquirer.prompt([
         type: 'list',
         message: 'Enter license type',
         name: 'license_type',
-        default: 'ISC',
-        choices: ['ISC',
+        default: 'MIT',
+        choices: ['MIT',
                   'Apache_v2.0', 
                     'GNU_v3.0', 
-                    'MIT',
+                    'ISC',
                     'BSL_1.0',],
       },
-    {
-        type: 'editor',
-        name: 'usage',
-        message: 'Enter usage information: ',
-        default: () => {},
-        validate: (installation_instructions) => 
-                    checkParagraphLines(installation_instructions,1,"Must be at least one line")
-    },
-
+      {
+          type: 'editor',
+          name: 'usage',
+          message: 'Enter usage information: ',
+          default: () => {},
+          validate: (installation_instructions) => 
+                      checkParagraphLines(installation_instructions,1,"Must be at least one line")
+      },
+      {
+          type: 'editor',
+          name: 'credits',
+          message: 'Enter credits information: ',
+          default: () => {},
+          validate: (credits) => 
+                      checkParagraphLines(credits,1,"Must be at least one line")
+      },
+      
 ]).then((answer) => {
-    console.log(answer);
+    if(DEBUG) {console.log(answer)};
     const readme = generateREADME(answer);
     fs.writeFile('README.md', readme, (err) =>
     err ? console.log(err) : console.log('Successfully created README.md!')
   );
 
-} 
-);
+});
 
 
