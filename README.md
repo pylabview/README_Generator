@@ -18,6 +18,7 @@ _______________________________________
 - [Credits](#credits)
 - [License](#license)
 - [Contact](#contact)
+- [Video](#video)
 
 ## Installation
 _______________________________________
@@ -72,6 +73,7 @@ If you would like to contribute to this project, you can do so by following the 
 Please feel free to reach out to me via email at <br>
 email: rodrigo19662001@gmail.com, Pylabview.
 
+## Video
 
 https://github.com/pylabview/README_Generator/assets/10331344/5a8d3fb7-7352-4c66-9030-da87d46d7ff6
 
